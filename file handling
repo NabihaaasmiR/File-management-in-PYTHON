@@ -1,0 +1,49 @@
+import csv
+import os
+
+FILE_NAME = "expensetracker.csv"
+
+if not os.path.exists(FILE_NAME):
+    with open(FILE_NAME, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Amount", "Category"])
+
+def add_expense(amount, category):
+    with open(FILE_NAME, "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([amount, category])
+    print("\n✅ Expense added successfully!\n")
+
+def view_expenses():
+    with open(FILE_NAME, "r") as file:
+        reader = csv.reader(file)
+        data = list(reader)
+    
+    if len(data) == 1:
+        print("\n📂 No expenses recorded yet.\n")
+        return
+
+    print("\n📌 Your Expenses:")
+    print("-" * 25)
+    for row in data:
+        print(f"💰 {row[0]}  |  📌 {row[1]}")
+    print("-" * 25)
+
+# Main Menu
+while True:
+    print("\n🌟 Expense Tracker 🌟")
+    print("1️⃣ Add Expense")
+    print("2️⃣ View Expenses")
+    print("3️⃣ Exit")
+
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        add_expense(input("💰 Amount: "), input("📌 Category: "))
+    elif choice == "2":
+        view_expenses()
+    elif choice == "3":
+        print("\n👋 Exiting... Have a great day!\n")
+        break
+    else:
+        print("\n❌ Invalid choice! Please enter 1, 2, or 3.\n")
